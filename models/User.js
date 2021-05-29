@@ -16,13 +16,13 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'business-manager', 'super-admin'],
       default: 'user',
     },
-    business: { type: mongoose.Types.ObjectId, ref: 'Business' },
+    business: { type: [mongoose.Types.ObjectId], ref: 'Business' },
   },
   {
     timestamps: true,
   }
 );
 
-const Users = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Users;
+module.exports = User;

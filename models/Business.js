@@ -9,12 +9,12 @@ const businessSchema = new mongoose.Schema(
     zipCode: { type: String },
     imageUrl: { type: String },
     phoneNumber: { type: String, required: true },
-    openHours: { type: String },
     timezone: { type: String },
     businessCategory: {
       type: mongoose.Types.ObjectId,
       ref: 'BusinessCategory',
     },
+    verified: { type: Boolean, default: false },
     creator: { type: mongoose.Types.ObjectId, ref: 'User' },
   },
   {
@@ -22,6 +22,6 @@ const businessSchema = new mongoose.Schema(
   }
 );
 
-const Businesses = mongoose.model('Business', businessSchema);
+const Business = mongoose.model('Business', businessSchema);
 
-module.exports = Businesses;
+module.exports = Business;

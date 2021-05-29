@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const reviewsSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     business: {
       type: mongoose.Types.ObjectId,
@@ -16,6 +16,6 @@ const reviewsSchema = new mongoose.Schema(
   }
 );
 
-const Reviews = mongoose.model('Order', reviewsSchema);
+const Review = mongoose.model('Order', reviewSchema);
 
-module.exports = Reviews;
+module.exports = Review;
