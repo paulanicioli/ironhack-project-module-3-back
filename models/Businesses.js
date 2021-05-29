@@ -9,7 +9,12 @@ const businessSchema = new mongoose.Schema(
     zipCode: { type: String },
     imageUrl: { type: String },
     phoneNumber: { type: String, required: true },
-    category: { type: mongoose.Types.ObjectId, ref: 'Category' },
+    openHours: { type: String },
+    timezone: { type: String },
+    businessCategory: {
+      type: mongoose.Types.ObjectId,
+      ref: 'BusinessCategory',
+    },
     creator: { type: mongoose.Types.ObjectId, ref: 'User' },
   },
   {

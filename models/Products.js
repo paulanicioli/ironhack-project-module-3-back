@@ -6,6 +6,7 @@ const productsSchema = new mongoose.Schema(
     description: { type: String },
     imageUrl: { type: String },
     business: { type: mongoose.Types.ObjectId, ref: 'Business' },
+    productCategory: { type: mongoose.Types.ObjectId, ref: 'ProductCategory' },
     creator: { type: mongoose.Types.ObjectId, ref: 'User' },
     limitedSupply: { type: Boolean, default: false },
     remainingQuantity: { type: Number },
