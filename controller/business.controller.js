@@ -27,25 +27,27 @@ class BusinessController {
 
       const business = await this.Businesses.findById(id);
 
-      const businessProducts = await this.Products.find({
-        business: business._id,
-      });
-
-      const businessSchedule = await this.Schedules.find({
-        business: business._id,
-      });
-
+      //If business is null, there's no need to search for it's products and schedule;
       if (business === null) {
         res
           .status(404)
           .json({ message: `Negócio com id ${id} não foi encontrado.` });
         return;
       }
+
+      const businessProducts = await this.Products.find({
+        business: business._id,
+      });
+
+      const businessSchedules = await this.Schedules.find({
+        business: business._id,
+      });
+
       // Returns the business object, its products and its schedule
       res.status(200).json({
         ...business,
         products: businessProducts,
-        schedules: businessSchedule,
+        schedules: businessSchedules,
       });
     } catch (error) {
       console.log(error);
