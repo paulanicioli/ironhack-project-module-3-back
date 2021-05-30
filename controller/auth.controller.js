@@ -27,9 +27,11 @@ class AuthController {
       await newUser.save();
 
       res.status(201).json({
-        message: `Novo usuário cadastrado com sucesso no  id ${newUser._id}.`,
+        message: `Novo usuário cadastrado com sucesso no id ${newUser._id}.`,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   login = async (req, res, next) => {
