@@ -6,7 +6,7 @@ const router = express();
 const protectedRoutesMiddleware = require('../middlewares/protectedRoutes/protectedRoutes.middlewares');
 
 const authRoutes = require('./auth/auth.routes');
-const businessRoutes = require('./auth/business.routes');
+const businessRoutes = require('./business/business.routes');
 
 router.use('/auth', authRoutes);
 
