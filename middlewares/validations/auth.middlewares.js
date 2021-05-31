@@ -1,5 +1,7 @@
 const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi)
+Joi.objectId = require('joi-objectid')(Joi);
+
+const validator = require('./utils/validator.util');
 
 class AuthMiddleware {
   constructor() {
@@ -8,7 +10,7 @@ class AuthMiddleware {
       .keys({
         firstName: Joi.string().trim().min(3).max(100).required(),
         lastName: Joi.string().trim().min(3).max(100).required(),
-        imageUrl: Joi.string(),
+        imageUrl: Joi.string().trim(),
         role: Joi.string().valid('user', 'business-manager', 'super-admin'),
         street: Joi.string().trim().min(3).max(100),
         city: Joi.string().trim().min(3).max(100),
@@ -28,40 +30,27 @@ class AuthMiddleware {
   }
 
   signup = (req, res, next) => {
-    const validationErrors = this.signupSchema.validate(req.body);
+    const validationErrors = validator.findErrors(this.signupSchema, req.body);
 
-    if (validationErrors.error) {
+    if (validationErrors) {
       return res
         .status(400)
-        .json(this.mountErrorMessage(validationErrors.error.details));
+        .json(validationErrors);
     }
 
     next();
   };
 
   login = (req, res, next) => {
-    const validationErrors = this.loginSchema.validate(req.body);
+    const validationErrors = validator.findErrors(this.loginSchema, req.body);
 
-    if (validationErrors.error) {
+    if (validationErrors) {
       return res
         .status(400)
-        .json(this.mountErrorMessage(validationErrors.error.details));
+        .json(validationErrors);
     }
 
     next();
-  };
-
-  mountErrorMessage = (errorDetails) => {
-    const fieldErrors = errorDetails.map((error) => {
-      return {
-        field: error.context.key,
-        message: error.message,
-      };
-    });
-    return {
-      message: 'Houve um problema com sua requisição.',
-      error: fieldErrors,
-    };
   };
 }
 
