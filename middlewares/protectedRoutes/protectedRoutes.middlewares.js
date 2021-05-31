@@ -7,12 +7,13 @@ class ProtectedRoutesMiddleware {
     if (!token) {
       return res.status(401).json({
         type: 'Auth',
-        message: 'Missing token',
+        message: 'You have to be logged in to access this page.',
       });
     }
+
     try {
       const tokenInfo = jwt.verify(
-        token.split(' ')[1],
+        token,
         process.env.JWT_HASH_SECRET
       );
 
@@ -20,7 +21,9 @@ class ProtectedRoutesMiddleware {
 
       return next();
     } catch (error) {
-      return rest.status(401).json({
+      console.log(error);
+      
+      return res.status(401).json({
         type: 'Auth',
         message: 'Invalid credentials',
       });
