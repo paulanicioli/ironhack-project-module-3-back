@@ -11,7 +11,7 @@ const businessRoutes = require('./business/business.routes');
 router.use('/auth', authRoutes);
 
 // Middleware to protect loggedin-only routes
-router.use(protectedRoutesMiddleware.protect);
+router.use(protectedRoutesMiddleware.protect(2));
 
 router.use('/businesses', businessRoutes);
 
