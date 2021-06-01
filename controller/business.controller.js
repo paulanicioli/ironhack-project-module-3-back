@@ -6,6 +6,7 @@ class BusinessController {
   constructor() {
     this.Businesses = Businesses;
     this.Products = Products;
+    this.Schedules = Schedules;
   }
 
   getAllFromCategory = async (req, res, next) => {
@@ -45,7 +46,7 @@ class BusinessController {
 
       // Returns the business object, its products and its schedule
       res.status(200).json({
-        ...business,
+        business,
         products: businessProducts,
         schedules: businessSchedules,
       });
@@ -76,19 +77,29 @@ class BusinessController {
         body,
       } = req;
 
-      await this.Businesses.findByIdAndUpdate(id, body);
+      const updatedBusiness = await this.Businesses.findByIdAndUpdate(id, body, { new: true });
 
-      res.status(200).json({ message: `Negócio com ID ${id} foi atualizado` });
+      if (!updatedBusiness) {
+        return res.status(401).json({ message: `Negócio com ID ${id} não consta no banco de dados.`})
+      }
+
+      res.status(200).json({ message: `Negócio com ID ${id} foi atualizado.` });
     } catch (error) {
       console.log(error);
     }
   };
 
   deleteOne = async (req, res, next) => {
-    try {
-      await this.Businesses.findByIdAndDelete(id);
+    const { id } = req.params;
 
-      res.status(200).json({ message: `Negócio com ID ${id} foi removido.` });
+    try {
+      const deletedBusiness = await this.Businesses.findByIdAndDelete(id);
+
+      if (!deletedBusiness) {
+        return res.status(401).json({ message: `Negócio com id ${ id } não encontrado no banco de dados.`})
+      }
+
+      res.status(200).json({ message: `Negócio com ID ${id} foi removido do banco de dados.` });
     } catch (error) {
       console.log(error);
     }
