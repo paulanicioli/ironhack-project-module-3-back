@@ -6,10 +6,12 @@ class BusinessCategoriesController {
   }
 
   getAll = async (req, res, next) => {
+    console.log('getAll has been called!');
     try {
+      console.log('CategoriesList called and successful!');
       const categories = await this.BusinessCategories.find();
 
-      res.status(200).json(categories);
+      return res.status(200).json(categories);
     } catch (error) {
       console.log(error);
     }
