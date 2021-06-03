@@ -44,7 +44,7 @@ class ProtectedRoutesMiddleware {
   
       try {
         const tokenInfo = jwt.verify(
-          token,
+          token.split(' ')[1],
           process.env.JWT_HASH_SECRET
         );
 
