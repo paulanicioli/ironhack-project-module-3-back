@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema(
     creator: { type: mongoose.Types.ObjectId, ref: 'User' },
     limitedSupply: { type: Boolean, default: false },
     remainingQuantity: { type: Number },
+    price: {type: Number},
     active: { type: Boolean, default: true },
   },
   {

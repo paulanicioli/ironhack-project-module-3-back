@@ -1,6 +1,7 @@
 const Businesses = require('../models/Business');
 const Products = require('../models/Product');
 const Schedules = require('../models/Schedule');
+const ProductCategory = require('../models/ProductCategory');
 
 class BusinessController {
   constructor() {
@@ -36,7 +37,7 @@ class BusinessController {
 
       const businessProducts = await this.Products.find({
         business: business._id,
-      });
+      }).populate('productCategory');
 
       const businessSchedules = await this.Schedules.find({
         business: business._id,
