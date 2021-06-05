@@ -5,8 +5,8 @@ const businessController = require('../../controller/business.controller');
 
 const router = express();
 
-// Get all businesses that belong to the chosen category (assuming category is sent as a query string)
-router.get('/', businessController.getAllFromCategory);
+// Get all businesses
+router.get('/', businessController.getAll);
 // Get details for a specific business
 router.get('/:id', businessController.getOne);
 router.post('/', businessValidator.createOne, businessController.createOne);

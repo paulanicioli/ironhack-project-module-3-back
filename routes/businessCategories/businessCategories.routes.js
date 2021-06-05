@@ -6,5 +6,7 @@ const router = express();
 
 // Get all categories that exist
 router.get('/', businessCategoriesController.getAll);
+// Get all businesses that belong to a certain category
+router.get('/:categoryId', businessCategoriesController.getAllBusinessFromCategory);
 
 module.exports = router;
