@@ -22,7 +22,7 @@ class BusinessCategoriesController {
     try {
       const businesses = await this.Businesses.find({
         businessCategory: categoryId,
-      });
+      }).populate('businessCategory');
 
       return res.status(200).json(businesses);
     } catch (error) {

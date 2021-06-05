@@ -9,8 +9,8 @@ const router = express();
 router.get('/', businessController.getAll);
 // Get details for a specific business
 router.get('/:id', businessController.getOne);
+// Creates a new business - signup flow
 router.post('/', businessValidator.createOne, businessController.createOne);
-//By default, Mongoose doesn't replace the original document, but changes it
 router.patch('/:id', businessController.updateOne);
 router.delete('/:id', businessController.deleteOne);
 

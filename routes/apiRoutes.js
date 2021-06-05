@@ -12,10 +12,9 @@ const businessCategoriesRoutes = require('./businessCategories/businessCategorie
 router.use('/auth', authRoutes);
 
 router.use('/categories', businessCategoriesRoutes);
+router.use('/businesses', businessRoutes);
 
 // Middleware to protect loggedin-only routes
 router.use(protectedRoutesMiddleware.protect(2));
-
-router.use('/businesses', businessRoutes);
 
 module.exports = router;

@@ -57,8 +57,12 @@ class BusinessController {
     try {
       const newBusiness = new this.Businesses({
         ...req.body,
-        creator: req.user.id,
+        // creator: req.user.id,
       });
+
+      if (req.user) {
+        newBusiness.creator = req.user.id;
+      }
 
       await newBusiness.save();
 
@@ -82,11 +86,9 @@ class BusinessController {
       );
 
       if (!updatedBusiness) {
-        return res
-          .status(401)
-          .json({
-            message: `Negócio com ID ${id} não consta no banco de dados.`,
-          });
+        return res.status(401).json({
+          message: `Negócio com ID ${id} não consta no banco de dados.`,
+        });
       }
 
       res.status(200).json({ message: `Negócio com ID ${id} foi atualizado.` });
@@ -102,18 +104,14 @@ class BusinessController {
       const deletedBusiness = await this.Businesses.findByIdAndDelete(id);
 
       if (!deletedBusiness) {
-        return res
-          .status(401)
-          .json({
-            message: `Negócio com id ${id} não encontrado no banco de dados.`,
-          });
+        return res.status(401).json({
+          message: `Negócio com id ${id} não encontrado no banco de dados.`,
+        });
       }
 
-      res
-        .status(200)
-        .json({
-          message: `Negócio com ID ${id} foi removido do banco de dados.`,
-        });
+      res.status(200).json({
+        message: `Negócio com ID ${id} foi removido do banco de dados.`,
+      });
     } catch (error) {
       console.log(error);
     }
