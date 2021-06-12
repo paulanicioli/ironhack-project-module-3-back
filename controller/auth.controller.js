@@ -56,8 +56,16 @@ class AuthController {
       }
 
       const token = await this.jwtManager.generateAuthToken(userFromDb);
+      const role = userFromDb.role
+      // console.log(token, role)
 
-      return res.status(200).json({ message: token });
+      return res.status(200)
+                .json({ 
+                  message: {
+                    token,
+                    role
+                  } 
+                });
     } catch (error) {
       console.log(error);
     }

@@ -6,7 +6,7 @@ class JwtManager {
   }
 
   generateAuthToken = (user) => {
-    return this.jwt.sign({ id: user._id, role: user.role }, process.env.JWT_HASH_SECRET, {
+    return this.jwt.sign({ id: user._id }, process.env.JWT_HASH_SECRET, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
   };
