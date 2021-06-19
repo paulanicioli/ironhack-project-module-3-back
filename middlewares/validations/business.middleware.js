@@ -9,10 +9,16 @@ class BusinessValidator {
       .options({ abortEarly: false })
       .keys({
         name: Joi.string().trim().min(3).max(50).required(),
-        street: Joi.string().trim().min(3).max(100),
-        city: Joi.string().trim().min(3).max(100),
-        state: Joi.string().trim().min(2).max(2),
-        zipCode: Joi.string().trim().min(8).max(9),
+        address: {
+          street: Joi.string().trim().min(3).max(100),
+          city: Joi.string().trim().min(3).max(100),
+          state: Joi.string().trim().min(2).max(2),
+          zipCode: Joi.string().trim().min(8).max(9),
+          location: {
+            type: Joi.string(),
+            coordinates: Joi.array().items(Joi.number()).min(2).max(2)
+          }
+        },
         imageUrl: Joi.string().trim(),
         phoneNumber: Joi.string()
           .required()
