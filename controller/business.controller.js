@@ -3,6 +3,8 @@ const Products = require('../models/Product');
 const Schedules = require('../models/Schedule');
 const ProductCategory = require('../models/ProductCategory');
 
+const Maps = require('./mapsApi.controller');
+
 class BusinessController {
   constructor() {
     this.Businesses = Businesses;
@@ -20,6 +22,34 @@ class BusinessController {
       console.log(error);
     }
   };
+
+  filterByDistance = async (req, res, next) => {
+    try {
+      let { address, coordinates, maxDistance } = req.query;
+
+      if (!coordinates) {
+        coordinates = await Maps.geocode(address)
+      }
+      
+      const businesses = await Businesses.find(
+        { 
+          "address.location": {
+            $near: {
+              $geometry: {
+                  type: "Point" ,
+                  coordinates
+                },
+              $maxDistance: maxDistance
+            }
+          }
+        }
+      )
+
+      res.status(200).json(businesses);
+    } catch (error) {
+        console.log('on business', error)
+    }
+  }
 
   getOne = async (req, res, next) => {
     try {
@@ -117,6 +147,21 @@ class BusinessController {
       console.log(error);
     }
   };
+
+  updateAll = async (req, res, next) => {
+    try {
+      await this.Businesses.updateMany({}, { address: {
+        location: {
+          type: "Point",
+          coordinates: [1, 2]
+        }
+      }})
+    } catch(error) {
+      console.log(error)
+    }
+
+    // this.Businesses.updateMany({}, { $unset: { }})
+  }
 }
 
 module.exports = new BusinessController();
