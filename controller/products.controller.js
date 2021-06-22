@@ -1,15 +1,21 @@
 const Products = require('../models/Product');
+const Businesses = require('../models/Business');
+const ProductCategories = require('../models/ProductCategory');
 
 class ProductController {
   constructor() {
     this.Products = Products;
+    this.Businesses = Businesses;
+    this.ProductCategories = ProductCategories;
   }
 
   getOne = async (req, res, next) => {
     try {
       const { id } = req.params;
 
-      const product = await this.Products.findById(id);
+      const product = await this.Products.findById(id)
+        .populate('business')
+        .populate('productCategory');
 
       if (product === null) {
         res
