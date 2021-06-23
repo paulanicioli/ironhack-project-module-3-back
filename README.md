@@ -12,11 +12,10 @@ TBD
 - Requests inplemented: GET, POST, PUT, PATCH & DELETE
 - Deployed at: Heroku
 
-- Link to API: [https://localhost]
-- Endpoints: TBD
+- [Backend API link](https://listo.herokuapp.com/)
 
-- Link to Front-End aplication: [https://localhosy]
-- Link to Front-End repository: [https://github.com/paulanicioli/ironhack-project-module-3-front]
+- [Link to Front-End aplication](https://listo-marketplace.netlify.app/)
+- [Link to Front-End repository](https://github.com/paulanicioli/ironhack-project-module-3-front)
 
 ## Additional implementations and improvements
 
