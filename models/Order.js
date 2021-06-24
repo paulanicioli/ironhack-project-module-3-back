@@ -7,11 +7,17 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: 'Business',
     },
-    user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' }, 
+    user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
+    business: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Business',
+    },
     products: { type: [mongoose.Types.ObjectId], ref: 'Product' },
     quantities: { type: [Number] },
-    //Salvaremos os incompletos no banco de dados?
+    comments: { type: [String] },
     completed: { type: Boolean, default: false },
+    totalPrice: { type: Number, required: true },
   },
   {
     timestamps: true,

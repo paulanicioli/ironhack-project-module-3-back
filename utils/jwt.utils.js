@@ -10,6 +10,10 @@ class JwtManager {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
   };
+
+  checkUserId = (token) => {
+    return this.jwt.decode(token);
+  };
 }
 
 module.exports = new JwtManager();

@@ -3,12 +3,15 @@ const Businesses = require('../models/Business');
 const Orders = require('../models/Order');
 const Users = require('../models/User');
 
+const jwtManager = require('../utils/jwt.utils');
+
 class OrderController {
   constructor() {
     this.Products = Products;
     this.Businesses = Businesses;
     this.Orders = Orders;
     this.Users = Users;
+    this.jwtManager = jwtManager;
   }
 
   getOne = async (req, res, next) => {
@@ -35,9 +38,27 @@ class OrderController {
 
   createOne = async (req, res, next) => {
     try {
-      const newOrder = new this.Orders({
-        ...req.body,
+      const rawOrder = req.body;
+      const products = rawOrder.order.map((element) => {
+        return element.product;
       });
+      const quantities = rawOrder.order.map((element) => {
+        return element.quantity;
+      });
+      const comments = rawOrder.order.map((element) => {
+        return element.comment;
+      });
+
+      const user_id = await this.jwtManager.checkUserId(req.body.token).id;
+
+      const newOrder = new this.Orders({});
+
+      newOrder.products = products;
+      newOrder.quantities = quantities;
+      newOrder.comments = comments;
+      newOrder.user = user_id;
+      newOrder.business = req.body.business;
+      newOrder.totalPrice = rawOrder.totalPrice;
 
       await newOrder.save();
 
