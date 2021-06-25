@@ -23,34 +23,6 @@ class BusinessController {
     }
   };
 
-  filterByDistance = async (req, res, next) => {
-    try {
-      let { address, coordinates, maxDistance } = req.query;
-
-      if (!coordinates) {
-        coordinates = await Maps.geocode(address)
-      }
-      
-      const businesses = await Businesses.find(
-        { 
-          "address.location": {
-            $near: {
-              $geometry: {
-                  type: "Point" ,
-                  coordinates
-                },
-              $maxDistance: maxDistance
-            }
-          }
-        }
-      )
-
-      res.status(200).json(businesses);
-    } catch (error) {
-        console.log('on business', error)
-    }
-  }
-
   getOne = async (req, res, next) => {
     try {
       const { id } = req.params;
