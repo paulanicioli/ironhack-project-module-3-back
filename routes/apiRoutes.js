@@ -14,6 +14,7 @@ const ordersRoutes = require('./orders/orders.routes');
 const maps = require('../controller/mapsApi.controller')
 
 router.use('/auth', authRoutes);
+router.use(protectedRoutesMiddleware.protect(1));
 
 router.use('/categories', businessCategoriesRoutes);
 router.use('/businesses', businessRoutes);
@@ -24,6 +25,5 @@ router.use('/orders', ordersRoutes);
 router.get('/geocode', maps.getGeocode)
 
 // Middleware to protect loggedin-only routes
-router.use(protectedRoutesMiddleware.protect(2));
 
 module.exports = router;

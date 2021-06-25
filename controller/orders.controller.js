@@ -14,12 +14,9 @@ class OrderController {
     this.jwtManager = jwtManager;
   }
 
-  findOwner = async (req, res, next) => {
+  getAllFromOwner = async (req, res, next) => {
     try {
-      const { token } = req.body;
-      const userId = this.jwtManager.checkUserId(token).id;
-
-      const orders = await this.Orders.find({ user: userId })
+      const orders = await this.Orders.find({ user: req.user })
         .populate('business')
         .populate('user')
         .populate('products');

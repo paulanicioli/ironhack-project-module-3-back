@@ -14,6 +14,15 @@ class JwtManager {
   checkUserId = (token) => {
     return this.jwt.decode(token);
   };
+
+  checkToken = (token) => {
+    const { id } = jwt.verify(
+      token,
+      process.env.JWT_HASH_SECRET
+    );
+
+    return id;
+  }
 }
 
 module.exports = new JwtManager();

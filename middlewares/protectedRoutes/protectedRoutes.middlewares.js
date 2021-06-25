@@ -1,12 +1,14 @@
+const Users = require('../../models/User');
 const { isError } = require('joi');
 const jwt = require('jsonwebtoken');
+const { jwtManager } = require('../../controller/auth.controller');
 
 class ProtectedRoutesMiddleware {
   constructor() {
     this.type = 'Auth';
     this.noTokenMessage = 'You have to be logged in to access this page.';
     this.invalidTokenMessage = 'Invalid Credentials';
-    this.notAuthorizedMessage = 'You have to be logged in to access this page.';
+    this.notAuthorizedMessage = 'You do not have authorization to access this page.';
   }
 
   userLevel = (userRole) => {
@@ -20,19 +22,8 @@ class ProtectedRoutesMiddleware {
     }
   }
 
-  checkAuth = (res, next, userRole, level) => {
-    const userAuthLevel = this.userLevel(userRole);
-
-    if (userAuthLevel >= level) return next();
-
-    return res.status(401).json({
-      type: 'Auth',
-      message: 'You do not have authorization to access this page.'
-    })    
-  }
-
   protect = (level) => {
-    return (req, res, next) => {
+    return async (req, res, next) => {
       const token = req.get('Authorization');
   
       if (!token) {
@@ -43,14 +34,20 @@ class ProtectedRoutesMiddleware {
       }
   
       try {
-        const tokenInfo = jwt.verify(
-          token.split(' ')[1],
-          process.env.JWT_HASH_SECRET
-        );
+        const userId = jwtManager.checkToken(token.split(' ')[1]);
+        const { role } = await Users.findById(userId, 'role');
 
-        req.user = tokenInfo;
+        const userAuthLevel = this.userLevel(role);
 
-        this.checkAuth(res, next, req.user.role, level);
+        req.user = userId;
+
+        if (userAuthLevel >= level) return next();
+
+        return res.status(401).json({
+          type: 'Auth',
+          message: this.notAuthorizedMessage
+        }) 
+
       } catch (error) {
         console.log(error);
         
