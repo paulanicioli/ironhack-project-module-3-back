@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
+const LocationSchema = require('./subSchemas/Location')
 
 const businessSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
-    street: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zipCode: { type: String },
+    address: {
+      street: { type: String },
+      city: { type: String },
+      state: { type: String },
+      zipCode: { type: String },
+      location: { type: LocationSchema, required: true}
+    },
     imageUrl: { type: String },
     phoneNumber: { type: String, required: true },
     timezone: { type: String },

@@ -3,6 +3,8 @@ const Products = require('../models/Product');
 const Schedules = require('../models/Schedule');
 const ProductCategory = require('../models/ProductCategory');
 
+const Maps = require('./mapsApi.controller');
+
 class BusinessController {
   constructor() {
     this.Businesses = Businesses;
@@ -117,6 +119,21 @@ class BusinessController {
       console.log(error);
     }
   };
+
+  updateAll = async (req, res, next) => {
+    try {
+      await this.Businesses.updateMany({}, { address: {
+        location: {
+          type: "Point",
+          coordinates: [1, 2]
+        }
+      }})
+    } catch(error) {
+      console.log(error)
+    }
+
+    // this.Businesses.updateMany({}, { $unset: { }})
+  }
 }
 
 module.exports = new BusinessController();
