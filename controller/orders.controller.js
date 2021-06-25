@@ -14,6 +14,28 @@ class OrderController {
     this.jwtManager = jwtManager;
   }
 
+  findOwner = async (req, res, next) => {
+    try {
+      const { token } = req.body;
+      const userId = this.jwtManager.checkUserId(token).id;
+
+      const orders = await this.Orders.find({ user: userId })
+        .populate('business')
+        .populate('user')
+        .populate('products');
+
+      if (orders.length === 0) {
+        res
+          .status(404)
+          .json({ message: `Usuário com id ${id} não tem nenhum pedido.` });
+        return;
+      }
+      res.status(200).json(orders);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   getOne = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -49,14 +71,14 @@ class OrderController {
         return element.comment;
       });
 
-      const user_id = await this.jwtManager.checkUserId(req.body.token).id;
+      const userId = await this.jwtManager.checkUserId(req.body.token).id;
 
       const newOrder = new this.Orders({});
 
       newOrder.products = products;
       newOrder.quantities = quantities;
       newOrder.comments = comments;
-      newOrder.user = user_id;
+      newOrder.user = userId;
       newOrder.business = req.body.business;
       newOrder.totalPrice = rawOrder.totalPrice;
 
