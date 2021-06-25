@@ -19,7 +19,8 @@ class OrderController {
       const orders = await this.Orders.find({ user: req.user })
         .populate('business')
         .populate('user')
-        .populate('products');
+        .populate('products')
+        .sort({ updatedAt: -1 });
 
       if (orders.length === 0) {
         res
