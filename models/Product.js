@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     description: { type: String },
     imageUrl: { type: String },
     business: { type: mongoose.Types.ObjectId, ref: 'Business' },
@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
     creator: { type: mongoose.Types.ObjectId, ref: 'User' },
     limitedSupply: { type: Boolean, default: false },
     remainingQuantity: { type: Number },
-    price: {type: Number},
+    price: { type: Number },
     active: { type: Boolean, default: true },
   },
   {
