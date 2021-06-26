@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const LocationSchema = require('../models/subSchemas/Location');
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,9 +10,11 @@ const userSchema = new mongoose.Schema(
       city: { type: String },
       state: { type: String },
       zipCode: { type: String },
-      imageUrl: { type: String }
-  },
+      location: { type: LocationSchema, required: true}
+    },
+    imageUrl: { type: String },
     email: { type: String, required: true, unique: true },
+    phoneNumber: { type: String },
     password: { type: String, required: true },
     role: {
       type: String,

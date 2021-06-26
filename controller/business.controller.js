@@ -63,6 +63,8 @@ class BusinessController {
       const newBusiness = new this.Businesses({
         name: req.body.name,
         phoneNumber: req.body.phoneNumber,
+        imageUrl: req.body.imageUrl,
+        businessCategory: req.body.businessCategory,
         verified: true,
         address: {
           location: {

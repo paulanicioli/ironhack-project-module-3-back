@@ -6,14 +6,3 @@ const LocationSchema = mongoose.Schema({
   })
 
   module.exports = LocationSchema;
-
-//   { "address.location": {
-//     $near: {
-//       $geometry: {
-//          type: "Point" ,
-//          coordinates: [ -46.6509551 , -23.5652605 ]
-//       },
-//       $maxDistance: 500
-//     }
-//   }
-// }
