@@ -9,6 +9,7 @@ class BusinessValidator {
       .options({ abortEarly: false })
       .keys({
         name: Joi.string().trim().min(3).max(50).required(),
+        fullAddress: Joi.string(),
         address: {
           street: Joi.string().trim().min(3).max(100),
           city: Joi.string().trim().min(3).max(100),

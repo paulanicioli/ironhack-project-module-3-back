@@ -57,11 +57,23 @@ class BusinessController {
   };
 
   createOne = async (req, res, next) => {
+    const coordinates = req.body.fullAddress ? await Maps.geocode(req.body.fullAddress) : [0, 0]
+
     try {
       const newBusiness = new this.Businesses({
-        ...req.body,
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        verified: true,
+        address: {
+          location: {
+            type: "Point",
+            coordinates
+          }
+        }
         // creator: req.user.id,
       });
+
+      console.log(newBusiness)
 
       if (req.user) {
         newBusiness.creator = req.user.id;

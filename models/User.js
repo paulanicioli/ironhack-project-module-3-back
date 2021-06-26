@@ -4,11 +4,13 @@ const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    street: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zipCode: { type: String },
-    imageUrl: { type: String },
+    address: {
+      street: { type: String },
+      city: { type: String },
+      state: { type: String },
+      zipCode: { type: String },
+      imageUrl: { type: String }
+  },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: {
