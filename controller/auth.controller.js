@@ -2,6 +2,8 @@ const Users = require('../models/User');
 const passwordManager = require('../utils/password.utils');
 const jwtManager = require('../utils/jwt.utils');
 
+const Maps = require('../controller/mapsApi.controller');
+
 class AuthController {
   constructor() {
     this.Users = Users;
@@ -14,20 +16,32 @@ class AuthController {
       const userFromDb = await this.Users.findOne({ email: req.body.email });
 
       if (userFromDb) {
-        return res.status(400).json({ message: 'Usuário já está cadastrado!' });
+        return res.status(400).json({ message: 'Email já cadastrado em nosso banco de dados.' });
       }
+      
+      const { street, city, state, zipCode } = req.body.address
+      const fullAddress = `${street}, ${city}, ${state}, ${zipCode}`
+      const userCoordinates = await Maps.geocode(fullAddress)
 
       const encryptedPassword = this.passwordManager.encrypt(req.body.password);
 
       const newUser = new this.Users({
         ...req.body,
+        address: {
+          ...req.body.address,
+          location: {
+            type: "Point",
+            coordinates: userCoordinates
+          }
+        },
         password: encryptedPassword,
       });
 
+      console.log(newUser)
       await newUser.save();
 
       res.status(201).json({
-        message: `Novo usuário cadastrado com sucesso no id ${newUser._id}.`,
+        message: `Cadastro completado com sucesso.`,
       });
     } catch (error) {
       console.log(error)
